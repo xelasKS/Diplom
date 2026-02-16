@@ -1,4 +1,4 @@
-﻿namespace CatalogService.Models;
+﻿namespace ProductService.Entities;
 
 public sealed class Category
 {

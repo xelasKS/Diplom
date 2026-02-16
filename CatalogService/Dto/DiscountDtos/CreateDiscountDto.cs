@@ -1,4 +1,4 @@
-﻿using CatalogService.Models;
+﻿using ProductService.Entities;
 
 namespace ProductService.Dto.DiscountDtos;
 
