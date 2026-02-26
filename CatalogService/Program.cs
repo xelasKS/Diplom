@@ -1,18 +1,11 @@
-using System.ComponentModel.DataAnnotations;
-using EFCore;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using ProductService;
-using ProductService.Dto;
+using Microsoft.AspNetCore.CookiePolicy;
+using ProductService.WebApi.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
-builder.Services.AddDbContext<ApplicationContext>();
-
+builder.Services.ConfigureServices();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -21,8 +14,16 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
+app.UseCookiePolicy(new CookiePolicyOptions()
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+    Secure = CookieSecurePolicy.Always,
+    HttpOnly = HttpOnlyPolicy.Always
+});
 app.UseHttpsRedirection();
-
+app.ConfigureEndpoints();
 app.Run();
 
 
